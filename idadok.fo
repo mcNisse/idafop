@@ -6,22 +6,26 @@
 				page-height="11.692in"  page-width="8.267in" margin-top=".5in" 
 				margin-bottom=".5in" margin-left="0in" margin-right="0in">
       <fo:region-body margin-top="1in" margin-bottom=".5in" margin-left="1in" margin-right="1in"/>
-      <fo:region-before region-name="head"/>
+      <fo:region-before region-name="head" extent=".7in"/>
     </fo:simple-page-master>
   </fo:layout-master-set>
   
   <fo:page-sequence master-reference="titlePage">
     <fo:static-content flow-name="head">
-      <fo:block space-before="200pt" border-bottom="thin"
-                border-bottom-style="solid"
-                border-bottom-color="#44b3d5"
-                color="#44b3d5"
-                font-size="10pt"
-                
-                >
-        <fo:external-graphic padding-left=".7in" padding-right="1.2in" padding-bottom=".5in" src="template/idainfront_200.png"/>
+      <fo:block-container space-before="200pt" border-bottom="thin"
+                          border-bottom-style="solid"
+                          border-bottom-color="#44b3d5"
+                          keep-with-next="always">
+        <fo:block>
+          <fo:external-graphic padding-left=".7in" padding-right="1.2in" padding-bottom=".5in" src="template/idainfront_200.png"/>
+        </fo:block>
+        <fo:block 
+            color="#44b3d5"
+            font-size="10pt"
+            >
         VI BYGGER FRAMTIDENS INFORMATIONSSAMHÄLLE
       </fo:block>
+      </fo:block-container>
     </fo:static-content>
 
     <fo:flow flow-name="xsl-region-body">
