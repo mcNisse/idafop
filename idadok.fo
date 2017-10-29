@@ -12,24 +12,36 @@
   
   <fo:page-sequence master-reference="titlePage">
     <fo:static-content flow-name="head">
-      <fo:block-container space-before="200pt" border-bottom="thin"
-                          border-bottom-style="solid"
-                          border-bottom-color="#44b3d5"
-                          keep-with-next="always">
-        <fo:block>
-          <fo:external-graphic padding-left=".7in" padding-right="1.2in" padding-bottom=".5in" src="template/idainfront_200.png"/>
-        </fo:block>
-        <fo:block 
-            color="#44b3d5"
-            font-size="10pt"
-            >
-        VI BYGGER FRAMTIDENS INFORMATIONSSAMHÄLLE
+      <fo:block space-before="200pt"
+                border-bottom="thin"
+                border-bottom-style="solid"
+                border-bottom-color="#44b3d5"
+                >
+        <fo:table>
+          <fo:table-body>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:external-graphic padding-left=".7in" padding-right="1.3in" padding-bottom=".16in" src="template/idainfront_200.png"/>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell>
+                <fo:block 
+                    color="#44b3d5"
+                    font-size="10pt"
+                    margin-top=".1in"
+                    >
+                  VI BYGGER FRAMTIDENS INFORMATIONSSAMHÄLLE
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
       </fo:block>
-      </fo:block-container>
     </fo:static-content>
 
     <fo:flow flow-name="xsl-region-body">
-      <fo:block font-size="18pt" text-align="center" font-weight="bold">
+      <fo:block font-size="18pt" text-align="center" font-weight="bold" color="#44b3d5">
         Hello World!
       </fo:block>
     </fo:flow>
