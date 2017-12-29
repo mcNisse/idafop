@@ -71,9 +71,14 @@
 (defun org-idafop-clock (clock contents info)
   (message "clock")
   "")
+
 (defun org-idafop-code (code contents info)
   (message "code")
-  (org-element-property :value code))
+  (concat
+   "<fo:inline font-family=\"monospace\">"
+   (org-element-property :value code)
+  "</fo:inline>"))
+
 (defun org-idafop-drawer (bold contents info)
   (message "drawer")
   "")
@@ -281,7 +286,7 @@
 
 (defun org-idafop-verbatim (verbatim contents info)
   (message "verbatim")
-  (org-element-property :value verbatim))
+  (org-idafop-code verbatim contents info))
 
 (defun org-idafop-verse-block (verse-block contents info)
   (message "verse-block")
