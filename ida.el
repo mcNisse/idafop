@@ -205,7 +205,10 @@
   "")
 (defun org-idafop-strike-through (strike-through contents info)
   (message "strike-through")
-  "")
+  (concat
+   "<fo:inline text-decoration=\"line-through\">"
+   contents
+   "</fo:inline>"))
 (defun org-idafop-subscript (subscript contents info)
   (message (concat "subscript " contents))
   (concat
