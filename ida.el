@@ -61,7 +61,10 @@
 
 (defun org-idafop-bold (bold contents info)
   (message "bold")
-  "")
+  (concat
+   "<fo:inline font-weight=\"bold\">"
+   contents
+   "</fo:inline>"))
 (defun org-idafop-center-block (center-block contents info)
   (message "center-block")
   "")
@@ -138,7 +141,10 @@
   "")
 (defun org-idafop-italic (italic contents info)
   (message "italic")
-  "")
+  (concat
+   "<fo:inline font-style=\"italic\">"
+   contents
+   "</fo:inline>"))
 (defun org-idafop-item (item contents info)
   (message "item")
   "")
@@ -159,15 +165,16 @@
   "")
 (defun org-idafop-paragraph (paragraph contents info)
   (message "paragraph")
-  (concat "<flow xmlns=\"paragraph\">"
-          contents
-          "</flow>"))
+  (concat
+   "<fo:block margin-top=\".2in\">"
+   contents
+   "</fo:block>"))
 (defun org-idafop-plain-list (plain-list contents info)
   (message "plain-list")
   "")
 (defun org-idafop-plain-text (contents info)
   (message (concat "plain-text: " ""))
-  "")
+  contents)
 (defun org-idafop-planning (planning contents info)
   (message "planning")
   "")
@@ -219,11 +226,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 (defun org-idafop-template (contents info)
   (message "template")
-  (message contents)
-  (let ((title (org-export-data (plist-get info :title) info))
-        (created "x")
+  (let* ((title (mapconcat (lambda (o) (org-element-interpret-data o)) (plist-get info :title) ""))
+         (created (plist-get info :date))
+         (c (format "%s-%s-%s"
+                    (plist-get (cadar created) :year-start)
+                    (plist-get (cadar created) :month-start)
+                    (plist-get (cadar created) :day-start)))
          ;(plist-get info :date))
-        )
+         )
     (concat
      "<?xml version=\"1.0\" encoding=\"utf-8\"?>
 <fo:root xmlns:fo=\"http://www.w3.org/1999/XSL/Format\">
@@ -231,7 +241,7 @@
      idafop-layout-master-set
      "<fo:page-sequence master-reference=\"titlePage\">"
      idafop-static-content-title
-     (format idafop-title-flow title created)
+     (format idafop-title-flow title c)
      "</fo:page-sequence>"
      "<fo:page-sequence master-reference=\"content\">"
      idafop-static-content-content
@@ -249,7 +259,10 @@
 
 (defun org-idafop-underline (underline contents info)
   (message "underline")
-  contents)
+  (concat
+   "<fo:inline text-decoration=\"underline\">"
+   contents
+   "</fo:inline>"))
 
 (defun org-idafop-verbatim (verbatim contents info)
   (message "verbatim")
