@@ -116,15 +116,19 @@
                      (3 14)
                      (4 12)
                      (otherwise 11)))
-         (page-break (if (= level 1) "page" "auto")))
+         (page-break (if (= level 1) "page" "auto"))
+         (margin-top (case level
+                       (1 "0in")
+                       (otherwise "0.3in"))))
     (message (concat "headline: "
                      (if numbered "true " "false ")
                      (number-to-string level)))
     (concat 
      (format
-      "<fo:block font-weight=\"bold\" color=\"#44b3d5\" font-size=\"%dpt\" break-before=\"%s\">"
+      "<fo:block font-weight=\"bold\" color=\"#44b3d5\" font-size=\"%dpt\" break-before=\"%s\" margin-top=\"%s\">"
       fontsize
-      page-break)
+      page-break
+      margin-top)
      (if prefix (concat prefix " "))
      title
      "</fo:block>"
@@ -203,11 +207,19 @@
   (message "strike-through")
   "")
 (defun org-idafop-subscript (subscript contents info)
-  (message "subscript")
-  "")
+  (message (concat "subscript " contents))
+  (concat
+   "<fo:inline vertical-align=\"sub\" font-size=\"6pt\">"
+   contents
+   "</fo:inline>"))
+           
 (defun org-idafop-superscript (superscript contents info)
   (message "superscript")
-  "")
+  (concat
+   "<fo:inline vertical-align=\"super\" font-size=\"6pt\">"
+   contents
+   "</fo:inline>"))
+
 (defun org-idafop-table (table contents info)
   (message "table")
   "")
