@@ -181,28 +181,30 @@
 (defun org-idafop-plain-list (plain-list contents info)
   (message "plain-list")
   (let* ((type (org-element-property :type plain-list))
-         (type-name (cond ((eq type 'ordered) "enumerate")
-                          ((eq type 'descriptive) "description")
-                          (t "itemize"))))
+         (indentations (cond ((eq type 'ordered) '(".4cm" ".3cm"))
+                          ((eq type 'descriptive) '("3cm" ".3cm"))
+                          (t '(".3cm" ".2cm")))))
     (concat
-     "<fo:list-block start-indent=\"1cm\" provisional-distance-between-starts=\"0.3cm\" "
-     "provisional-label-separation=\"0.2cm\">"
+     (format 
+      "<fo:list-block start-indent=\"1cm\" provisional-distance-between-starts=\"%s\" provisional-label-separation=\"%s\">"
+      (car indentations)
+      (cadr indentations))
      contents
      "</fo:list-block>")
      ))
 (defun org-idafop-item (item contents info)
   (message "item")
-  (let* ((tag (org-element-property :tag item))
+  (let* ((tag (org-element-interpret-data (org-element-property :tag item)))
          (structure (org-element-property :structure item))
          (parent (org-export-get-parent item))
          (type (org-element-property :type parent))
          (marker (cond ((eq type 'ordered) (number-to-string (car (org-export-get-ordinal item info))))
-                       ((eq type 'descriptive) "elem")
+                       ((eq type 'descriptive) tag)
                        (t "<fo:character character=\"&#x2022;\"/>"))))
     (message (concat "marker: " marker))
     (concat
      "<fo:list-item><fo:list-item-label end-indent=\"label-end()\">"
-     "<fo:block font-weight=\"bold\" color=\"#44b3d5\">"
+     "<fo:block font-weight=\"bold\" font-style=\"italic\" color=\"#44b3d5\">"
      marker
      "</fo:block>"
      "</fo:list-item-label>"
