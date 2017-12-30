@@ -1,0 +1,86 @@
+#+TITLE: This is A Title
+#+DATE: <2017-12-17 sön>
+#+AUTHOR: Johan Erlands
+#+EMAIL: johan.erlands@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
+#+CREATOR: Emacs 24.5.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+* Level 1
+
+Different formattering:
+
+Oxygen O_2
+
+X2 X^2
+
+Strong *strong*
+
+Empasis /empasis/
+
+Underline _underline_
+
+Verbatim =verbatim=
+
+Code ~code~
+
+Strike +strike+
+
+** Level 2
+
+The table
+
+| Column1 | Column2 |
+|---------+---------|
+| Value   | Value   |
+
+The table with caption
+
+#+CAPTION: This is the caption
+| Column1 |
+|---------|
+| Value   |
+
+The table with caption and name
+
+#+CAPTION: This is the caption
+#+NAME: TheTableName
+| Column1 |
+|---------|
+| Value   |
+
+*** Level 3
+
+**** Level 4
+
+* Next part
+
+This is the next part.
+
+** The list
+
+  - item one
+  - Item 2
+  - Item the item
+
+** The numbered list
+
+ 1. Test
+ 2. Debug
+ 3. Create
+ 4. Keep on working
+
+** The description list
+
+ - tag :: A tag
+ - element :: B the name of the data.
+ - attribute :: A property of the element
+
+

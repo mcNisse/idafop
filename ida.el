@@ -154,9 +154,7 @@
    "<fo:inline font-style=\"italic\">"
    contents
    "</fo:inline>"))
-(defun org-idafop-item (item contents info)
-  (message "item")
-  "")
+
 (defun org-idafop-keyword (keyword contents info)
   (message "keyword")
   "")
@@ -175,12 +173,54 @@
 (defun org-idafop-paragraph (paragraph contents info)
   (message "paragraph")
   (concat
-   "<fo:block margin-top=\".2in\">"
+                                        ;"<fo:block margin-top=\".2in\">"
+   "<fo:block>"
    contents
    "</fo:block>"))
+
 (defun org-idafop-plain-list (plain-list contents info)
   (message "plain-list")
-  "")
+  (let* ((type (org-element-property :type plain-list))
+         (type-name (cond ((eq type 'ordered) "enumerate")
+                          ((eq type 'descriptive) "description")
+                          (t "itemize"))))
+    (concat
+     "<fo:list-block start-indent=\"1cm\" provisional-distance-between-starts=\"0.3cm\" "
+     "provisional-label-separation=\"0.2cm\">"
+     contents
+     "</fo:list-block>")
+     ))
+(defun org-idafop-item (item contents info)
+  (message "item")
+  (let* ((tag (org-element-property :tag item))
+         (structure (org-element-property :structure item))
+         (parent (org-export-get-parent item))
+         (type (org-element-property :type parent))
+         (marker (cond ((eq type 'ordered)
+                        (let* ((number 0)
+                               (data (car structure))
+                               (s structure)
+                               (begin (org-element-property :begin item)))
+                          (while data
+                            (setq s (cdr s))
+                            (if (= begin (car data))
+                                (setq data nil)
+                              (setq data (car s)))
+                            (incf number))
+                          (number-to-string number)))
+                       ((eq type 'descriptive) "elem")
+                       (t "<fo:character character=\"&#x2022;\"/>"))))
+    (message (concat "marker: " marker))
+    (concat
+     "<fo:list-item><fo:list-item-label end-indent=\"label-end()\">"
+     "<fo:block font-weight=\"bold\" color=\"#44b3d5\">"
+     marker
+     "</fo:block>"
+     "</fo:list-item-label>"
+     "<fo:list-item-body start-indent=\"body-start()\">"
+     contents
+     "</fo:list-item-body></fo:list-item>")))
+
 (defun org-idafop-plain-text (contents info)
   (message (concat "plain-text: " ""))
   contents)
