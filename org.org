@@ -37,9 +37,18 @@ Strike +strike+
 
 The table
 
-| Column1 | Column2 |
-|---------+---------|
-| Value   | Value   |
+| Column1 | Column2        |
+|---------+----------------|
+| Value   | Value          |
+| v1      | v2             |
+| v3      | Value number 3 |
+
+The table with double heading rows
+
+| h1    | h2    |
+| desc  | desc  |
+|-------+-------|
+| data1 | data2 |
 
 The table with caption
 

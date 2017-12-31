@@ -261,13 +261,91 @@
 
 (defun org-idafop-table (table contents info)
   (message "table")
-  "")
+  (let* ((dim (org-export-table-dimensions table info))
+         (cellsizes
+          (mapcar
+           (lambda
+             (col)
+             (org-element-map table 'table-row
+               (lambda
+                 (row)
+                 (length
+                  (org-export-data
+                   (org-element-contents
+                    (elt
+                     (org-element-contents row) col)) info))) info))
+           (number-sequence 0 (- (cdr dim) 1))))
+         (char-col-size (mapcar (lambda (colsizes) (apply 'max colsizes)) cellsizes))
+         (col-size (let* ((total (apply '+ char-col-size))
+                          (part (/ 15.0 total)))
+                     (mapcar (lambda (x) (format "%2.2fcm" (* part x))) char-col-size)))
+         (caption nil));;(org-element-property :caption table)))
+    (concat
+     (and caption
+          (concat
+           "<fo:table-and-caption>"
+           "<fo:table-caption>"
+           "<fo:block>"
+           (org-export-data caption info)
+           "</fo:block>"
+           "</fo:table-caption>")
+           )
+     "<fo:table border-style=\"solid\" border-width=\".5mm\" border-color=\"#44b3d5\">"
+     (and (org-export-table-has-header-p table info)
+          (org-idafop-export-rows t table info))
+     (org-idafop-export-rows nil table info)
+     "</fo:table>"
+     (and caption
+          "</fo:table-and-caption>"))))
+  
+(defun org-idafop-export-rows (head table info)
+  (let* ((config (if head
+                     '(:tag "table-header" :background "#44b3d5" :text-color "#ffffff" :text-align "center" :cell-borders "")
+                   '(:tag "table-body"  :background "#ffffff" :text-color "#000000" :text-align "left" :cell-borders " border-style=\"solid\" border-width=\".5mm\" border-color=\"#44b3d5\""))))
+    (concat
+     (format "<fo:%s text-align=\"%s\" background-color=\"%s\">" (plist-get config :tag) (plist-get config :text-align) (plist-get config :background))
+     (mapconcat 'identity
+                (let ((in-header nil))
+                  (org-element-map table 'table-row
+                    (lambda
+                      (row)
+                      (let ((ends (org-export-table-row-ends-header-p row info))
+                            (starts (org-export-table-row-starts-header-p row info))
+                            (special-row (not (eq (org-element-property :type row) 'standard)))
+                            (export nil))
+                        (if (or starts in-header)
+                            (progn
+                              (setq export head)
+                              (setq in-header (not ends)))
+                          (setq export (and (not head) (not special-row))))
+                        (if export
+                            (org-idafop-export-row config row info))))
+                    info))
+                "")
+    (format "</fo:%s>" (plist-get config :tag)))))
+(defun org-idafop-export-row (config row info)
+  (concat
+   "<fo:table-row>"
+   (mapconcat
+    'identity
+    (org-element-map row 'table-cell
+      (lambda (cell)
+        (concat
+         (format "<fo:table-cell%s>" (plist-get config :cell-borders)) 
+         (format "<fo:block color=\"%s\" margin-left=\"1mm\" margin-top=\"1mm\">" (plist-get config :text-color))
+         (org-export-data (org-element-contents cell) info)
+         "</fo:block>"
+         "</fo:table-cell>"))
+      info) "")
+   "</fo:table-row>"))
+
 (defun org-idafop-table-cell (table-cell contents info)
   (message "table-cell")
   "")
 (defun org-idafop-table-row (table-row contents info)
   (message "table-row")
-  "")
+  (let ((test "test"))
+        ""))
 (defun org-idafop-target (target contents info)
   (message "target")
   "")
