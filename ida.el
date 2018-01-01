@@ -202,7 +202,7 @@
          (structure (org-element-property :structure item))
          (parent (org-export-get-parent item))
          (type (org-element-property :type parent))
-         (marker (cond ((eq type 'ordered) (number-to-string (car (org-export-get-ordinal item info))))
+         (marker (cond ((eq type 'ordered) (concat (number-to-string (car (org-export-get-ordinal item info))) "."))
                        ((eq type 'descriptive) tag)
                        (t "<fo:character character=\"&#x2022;\"/>"))))
     (message (concat "marker: " marker))
@@ -428,7 +428,7 @@
                            margin-left=\"0\"
                            margin-right=\"0\">
       <fo:region-body margin-top=\"1in\"
-                      margin-bottom=\".5in\"
+                      margin-bottom=\"2cm\"
                       margin-left=\".7in\"
                       margin-right=\".7in\"/>
       <fo:region-before region-name=\"cHead\" extent=\"2cm\"/>
