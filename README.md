@@ -22,7 +22,7 @@ copy content of repo the location of the org-file. load ida.el into emacs.
 
 idodok.fo - an file matching the layout that I wanted
 
-templates/ - the graphics used in the document
+template/ - the graphics used in the document
 
 ida.el - the exporter
 
