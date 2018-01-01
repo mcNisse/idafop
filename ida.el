@@ -172,11 +172,15 @@
   "")
 (defun org-idafop-paragraph (paragraph contents info)
   (message "paragraph")
-  (concat
+  (let* ((parent-type (org-element-type (org-export-get-parent paragraph)))
+         (margin-top (cond
+                      ((eq parent-type 'section) "5mm")
+                      (t "0mm"))))
+    (concat
                                         ;"<fo:block margin-top=\".2in\">"
-   "<fo:block>"
-   contents
-   "</fo:block>"))
+     (format "<fo:block margin-top=\"%s\">" margin-top)
+     contents
+     "</fo:block>")))
 
 (defun org-idafop-plain-list (plain-list contents info)
   (message "plain-list")
@@ -427,8 +431,8 @@
                       margin-bottom=\".5in\"
                       margin-left=\".7in\"
                       margin-right=\".7in\"/>
-      <fo:region-before region-name=\"cHead\" extent=\".7in\"/>
-      <fo:region-after region-name=\"cFooter\" extent=\".7in\"/>
+      <fo:region-before region-name=\"cHead\" extent=\"2cm\"/>
+      <fo:region-after region-name=\"cFooter\" extent=\"1.7cm\"/>
     </fo:simple-page-master>
   </fo:layout-master-set>")
 

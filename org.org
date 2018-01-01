@@ -66,8 +66,13 @@ The table with caption and name
 | Value   |
 
 *** Level 3
+Text on level 3.
+
+More text on level 3.
 
 **** Level 4
+
+Some text on level 4.
 
 * Next part
 
